@@ -19,8 +19,12 @@ void checkboard() {
 		}
 	}
 
+	/*XL = (Gx - 2); int XR = (Gx + 2);
+	YU = (Gy - 2); int YL = (Gy + 2);*/
+
 	XL = (Gx - 2); int XR = (Gx + 2);
 	YU = (Gy - 2); int YL = (Gy + 2);
+
 	/*
 	for (int i = YU; i <= YL; i++) {
 		for (int x = XL; x <= XR; x++) {
@@ -61,20 +65,23 @@ void checkrepeats(int x1, int y1, int x2, int y2) {
 		if (y1 == y2) {
 			repeats++;
 			if (repeats > 4) {
-				fixrepeat(x1, y1, x2, y2, move1X, move1Y);
+				/*fixrepeat(x1, y1, x2, y2, move1X, move1Y);*/
 				cout << "Repeating" << endl;
 			}
 		}
 	}
 }
+
+// The repeats function isnt needed here. it doesn't reaally do anything. 
 //fixing repeats
-void fixrepeat(int x1, int y1, int x2, int y2, int move1X, int move1Y) {
-	if ((x1 == move1X) && (x2 == move1X)) {
-	}
-	else if ((y1 == move1Y) && (y2 == move1Y)) {
-		
-	}
-}
+//void fixrepeat(int x1, int y1, int x2, int y2, int move1X, int move1Y) {
+//	if ((x1 == move1X) && (x2 == move1X)) {
+//		cout << "hello" << endl;
+//	}
+//	else if ((y1 == move1Y) && (y2 == move1Y)) {
+//		cout << "hello2" << endl;
+//	}
+//}
 
 
 void GhostMove() {
@@ -127,32 +134,33 @@ void GhostMove() {
 		}
 
 		else {
-			if (board[Gy+1][Gx]==0) {
+			if (board[Gy + 1][Gx] == 0) {
 				Movedown();
 				SkipY = true;
 			}
-			else if (board[Gy-1][Gx] == 0) {
+			else if (board[Gy - 1][Gx] == 0) {
 				Moveup();
 				SkipY = true;
 			}
-			else if (board[Gy][Gx-1] == 0) {
+			else if (board[Gy][Gx - 1] == 0) {
 				Moveleft();
 			}
-			else if (board[Gy][Gx+1] == 0) {
+			else if (board[Gy][Gx + 1] == 0) {
 				Moveright();
 			}
 		}
 
-		
-		// End Game
-		if ((Px == Gx)&&(Py == Gy)){
-//			DrawBoard();
-			cout << "End Game" << endl
-				<< "Total moves: " << Moves << endl;
-			End = true;
-		}
+	}
+
+	// End Game
+	if ((Px == Gx) && (Py == Gy)) {
+		//			DrawBoard();
+		cout << "End Game" << endl
+			<< "Total moves: " << Moves << endl;
+		End = true;
 	}
 }
+
 void ghostMove() {
 	CurrentMove = Moves;
 	if (Px < Gx) {
@@ -171,7 +179,7 @@ void ghostMove() {
 		else { goto MoveGhost; }
 	}
 	else {
-		MoveGhost:
+	MoveGhost:
 		GhostMove();
 	}
 }
@@ -217,24 +225,49 @@ void Movedown() {
 	Moves++;
 }
 
-void AI() {
-	for (;;) {
-		if (End == false) {
-			DrawBoard();
-			cout << "Ghost: (" << Gx << "," << Gy << ")" << endl;
-			checkboard();
-			logmoves(Gx, Gy);
-			if (Moves > 1) {
-				ghostMove();
-			}
-			else {
-				GhostMove();
-			}
-			cout << endl;
-			SDL_Delay(500);
+//void AI() {
+//	for (;;) {
+//		if (End == false) {
+//			system("cls");
+//			DrawBoard();
+//			cout << "Ghost: (" << Gx << "," << Gy << ")" << endl;
+//			checkboard();
+//			logmoves(Gx, Gy);
+//			if (Moves > 1) {
+//				ghostMove();
+//			}
+//			else {
+//				GhostMove();
+//			}
+//			cout << endl;
+//			Sleep(500);
+//		}
+//		else {
+//			break;
+//		}
+//	}
+//}
+
+
+// New function for AI
+void AI()
+{
+	while (!End)
+	{
+		system("cls");
+		DrawBoard();
+		cout << "Ghost: (" << Gx << "," << Gy << ")" << endl;
+		checkboard();
+		logmoves(Gx, Gy);
+		if (Moves > 1)
+		{
+			ghostMove();
 		}
-		else {
-			break;
+		else
+		{
+			GhostMove();
 		}
+		cout << endl;
+		Sleep(500);
 	}
 }
